@@ -53,7 +53,7 @@ for prune_population in [True, False]:
     with Pool(n_cpus) as pool:
         output = pool.map(ga.GA, args)
 
-    for i in range(n_tries):   
+    for i in range(n_tries):
         #(scores, population) = ga.GA([population_size, file_name,scoring_function,generations,mating_pool_size,mutation_rate,scoring_args],prune_population)
         (scores, population, high_scores, generation) = output[i]
         smiles = Chem.MolToSmiles(population[0], isomericSmiles=True)
