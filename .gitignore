@@ -1,3 +1,8 @@
+runs
+equina_temp
+first_real_results
+*.pickle
+
 Tanimoto_sort.py
 Tanimoto_score_smiles.py 
 Tanimoto_250K.Tanimoto_score_smiles
