@@ -113,11 +113,13 @@ def GA(args):
   population = make_initial_population(population_size,file_name)
   scores = sc.calculate_scores(population,scoring_function,scoring_args)
   #reorder so best score comes first
+  # print(scores)
   population, scores = sanitize(population, scores, population_size, False)
   high_scores.append((scores[0],Chem.MolToSmiles(population[0])))
   fitness = calculate_normalized_fitness(scores)
 
   for generation in tqdm(range(generations)):
+    # print(fitness)
     mating_pool = make_mating_pool(population,fitness,mating_pool_size)
     new_population = reproduce(mating_pool,population_size,mutation_rate)
     new_scores = sc.calculate_scores(new_population,scoring_function,scoring_args)
@@ -144,32 +146,29 @@ if __name__ == "__main__":
       "--addH", "--use_rdkit_coords",
     ]
   # sys.exit()
-  rewarder = eqr.Rewarder("vs", arglist,
-  default_score = 0,
-  gnina_save = "equina_temp/all_gnina.sdf",
-  equibind_save = "equina_temp/all_equibind.sdf",
-  )
+    rewarder = eqr.Rewarder("vs", arglist,
+    default_score = 0,
+    gnina_save = "equina_temp/all_gnina.sdf",
+    equibind_save = "equina_temp/all_equibind.sdf",
+    )
 
-  
-  population_size = 100
-  file_name = "/home/qzj517/POR-DD/Enamine_library/enamine_best_1000.sdf"
-  scoring_function = rewarder
-  generations = 100
-  mating_pool_size = 20
-  mutation_rate = 0.05
-  # with mp.Pool(8) as pool:
-  scoring_args = []
-  max_score = 1000.
-  prune_population = False
-  seed = 0
-  for i in range(10):
-    rewarder.gnina_save = f"equina_temp/all_gnina_{i}.sdf"
-    rewarder.equibind_save = f"equina_temp/all_equibind_{i}.sdf"
-    args = (population_size, file_name,scoring_function,generations,mating_pool_size,mutation_rate, \
-    scoring_args, max_score, prune_population, seed)
-    results = GA(args)
-    with open(f"equina_temp/results_{i}.pickle", "wb") as file:
-      pickle.dump(results, file) 
+    population_size = 100
+    file_name = "/home/qzj517/POR-DD/Enamine_library/enamine_best_1000.sdf"
+    scoring_function = rewarder
+    generations = 100
+    mating_pool_size = 20
+    mutation_rate = 0.05
+    # with mp.Pool(8) as pool:
+    scoring_args = []
+    max_score = 1000.
+    prune_population = False
+    seed = 0
+    for i in range(10):
+      rewarder.gnina_save = f"equina_temp/all_gnina_{i}.sdf"
+      rewarder.equibind_save = f"equina_temp/all_equibind_{i}.sdf"
+      args = (population_size, file_name,scoring_function,generations,mating_pool_size,mutation_rate, \
+      scoring_args, max_score, prune_population, seed)
+      results = GA(args)
+      with open(f"equina_temp/results_{i}.pickle", "wb") as file:
+        pickle.dump(results, file) 
     
-
-
